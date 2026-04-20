@@ -1,4 +1,10 @@
 {
+<<<<<<< HEAD
     "instanceId": "75b9128502a6d9e6",
     "_credentialSecret": "d5863130fb987e52c0839455651da360729b8e24f393dccd137e64854cfe0fd4"
+=======
+    "instanceId": "9d9448746e439c6f",
+    "_credentialSecret": "8654f83020ee62ad3abf14e125f0172bc72f697aa56f304b0a2143b93cb269a1",
+    "telemetryEnabled": false
+>>>>>>> 9eda594a1d62c30bb38836485e39d1bfb172f843
 }
