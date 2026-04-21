@@ -15,7 +15,7 @@ def load_model(path):
 
 
 def create_client(broker, port, keepalive=60, max_retries=8):
-    client = mqtt.Client(callback_api_version=2)
+    client = mqtt.Client(callback_api_version=mqtt.CallbackAPIVersion.VERSION2)
     backoff = 1
     for attempt in range(max_retries):
         try:

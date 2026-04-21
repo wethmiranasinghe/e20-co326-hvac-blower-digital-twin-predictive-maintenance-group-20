@@ -2,3 +2,5 @@ node-red/.npm/
 node-red/node_modules/
 *.backup
 **/*.backup
+__pycache__/
+*.pyc

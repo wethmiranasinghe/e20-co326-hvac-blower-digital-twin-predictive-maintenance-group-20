@@ -1,4 +1,4 @@
 pandas
 scikit-learn==1.5.0
 joblib
-paho-mqtt
+paho-mqtt>=2.0,<3.0
