@@ -6,7 +6,7 @@
                 "view-store-position": false,
                 "view-show-grid": true,
                 "view-snap-grid": true,
-                "view-grid-size": 20,
+                "view-grid-size": "20",
                 "view-node-status": true,
                 "view-node-info-icon": true,
                 "view-node-show-label": true,
@@ -16,6 +16,17 @@
             "tours": {
                 "welcome": "4.1.8"
             }
-        }
+        },
+        "menu-deploymenu-item-flow": true,
+        "menu-deploymenu-item-full": false,
+        "debug": {
+            "filter": "filterSelected",
+            "filteredNodes": [
+                "4e4ef5c114d9a231",
+                "0ecfafb1c76626d0"
+            ]
+        },
+        "menu-menu-item-sidebar": true,
+        "menu-menu-item-palette": false
     }
 }

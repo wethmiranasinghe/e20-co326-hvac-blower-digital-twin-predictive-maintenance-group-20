@@ -2,10 +2,49 @@
     {
         "id": "6c3aebd160ce2af5",
         "type": "tab",
-        "label": "Flow 1",
+        "label": "MQTT Sensor Data",
         "disabled": false,
         "info": "",
         "env": []
+    },
+    {
+        "id": "00ad5ea394b9c077",
+        "type": "tab",
+        "label": "MQTT Alert Test",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "e5af4df9f7d80cca",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "mqtt",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
     },
     {
         "id": "1c80c48f7f2b5364",
@@ -126,37 +165,6 @@
         "className": ""
     },
     {
-        "id": "e5af4df9f7d80cca",
-        "type": "mqtt-broker",
-        "name": "",
-        "broker": "mqtt",
-        "port": 1883,
-        "clientid": "",
-        "autoConnect": true,
-        "usetls": false,
-        "protocolVersion": 4,
-        "keepalive": 60,
-        "cleansession": true,
-        "autoUnsubscribe": true,
-        "birthTopic": "",
-        "birthQos": "0",
-        "birthRetain": "false",
-        "birthPayload": "",
-        "birthMsg": {},
-        "closeTopic": "",
-        "closeQos": "0",
-        "closeRetain": "false",
-        "closePayload": "",
-        "closeMsg": {},
-        "willTopic": "",
-        "willQos": "0",
-        "willRetain": "false",
-        "willPayload": "",
-        "willMsg": {},
-        "userProps": "",
-        "sessionExpiry": ""
-    },
-    {
         "id": "3769e4d58b121aae",
         "type": "mqtt in",
         "z": "6c3aebd160ce2af5",
@@ -216,6 +224,86 @@
                 "4e4ef5c114d9a231"
             ]
         ]
+    },
+    {
+        "id": "4e4ef5c114d9a231",
+        "type": "debug",
+        "z": "6c3aebd160ce2af5",
+        "name": "debug 1",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 600,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "b8a97011274da08a",
+        "type": "inject",
+        "z": "6c3aebd160ce2af5",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "5",
+        "payloadType": "num",
+        "x": 730,
+        "y": 240,
+        "wires": [
+            [
+                "6f9c62b40b3fc349"
+            ]
+        ]
+    },
+    {
+        "id": "0ecfafb1c76626d0",
+        "type": "debug",
+        "z": "6c3aebd160ce2af5",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 800,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "54a1ebfaa6dfbeb4",
+        "type": "ui_text",
+        "z": "6c3aebd160ce2af5",
+        "group": "a981c80528fe9e84",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "Moving Average",
+        "label": "Moving Average",
+        "format": "{{msg.payload.moving_avg}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 860,
+        "y": 480,
+        "wires": []
     },
     {
         "id": "6f9c62b40b3fc349",
@@ -290,83 +378,141 @@
         ]
     },
     {
-        "id": "54a1ebfaa6dfbeb4",
+        "id": "4e32dc929fdc54b2",
+        "type": "mqtt in",
+        "z": "00ad5ea394b9c077",
+        "name": "HVAC Alert Status",
+        "topic": "alerts/group20/hvac-blower/status",
+        "qos": "0",
+        "datatype": "auto-detect",
+        "broker": "e5af4df9f7d80cca",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 190,
+        "y": 220,
+        "wires": [
+            [
+                "9b1e6332e3683da9"
+            ]
+        ]
+    },
+    {
+        "id": "9b1e6332e3683da9",
+        "type": "json",
+        "z": "00ad5ea394b9c077",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 470,
+        "y": 220,
+        "wires": [
+            [
+                "7e0c6349b6d1ed1a",
+                "3365f96b712f5b70",
+                "5155c460989a68a1"
+            ]
+        ]
+    },
+    {
+        "id": "7e0c6349b6d1ed1a",
+        "type": "function",
+        "z": "00ad5ea394b9c077",
+        "name": "extract_status",
+        "func": "let data = msg.payload;\n\nif (typeof data === \"string\") {\n    data = JSON.parse(data);\n}\n\nmsg.payload = data.status;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 220,
+        "wires": [
+            [
+                "bce33167c025d4e1"
+            ]
+        ]
+    },
+    {
+        "id": "bce33167c025d4e1",
         "type": "ui_text",
-        "z": "6c3aebd160ce2af5",
+        "z": "00ad5ea394b9c077",
         "group": "a981c80528fe9e84",
-        "order": 2,
+        "order": 3,
         "width": 0,
         "height": 0,
-        "name": "",
-        "label": "Moving Average",
-        "format": "{{msg.payload.moving_avg}}",
+        "name": "Fan Status",
+        "label": "Fan Status",
+        "format": "{{msg.payload}}",
         "layout": "row-spread",
         "className": "",
         "style": false,
         "font": "",
         "fontSize": 16,
         "color": "#000000",
-        "x": 860,
-        "y": 480,
+        "x": 1010,
+        "y": 220,
         "wires": []
     },
     {
-        "id": "4e4ef5c114d9a231",
-        "type": "debug",
-        "z": "6c3aebd160ce2af5",
-        "name": "debug 1",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 600,
-        "y": 400,
-        "wires": []
-    },
-    {
-        "id": "b8a97011274da08a",
-        "type": "inject",
-        "z": "6c3aebd160ce2af5",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "5",
-        "payloadType": "num",
-        "x": 730,
-        "y": 240,
+        "id": "3365f96b712f5b70",
+        "type": "function",
+        "z": "00ad5ea394b9c077",
+        "name": "extract_message",
+        "func": "let data = msg.payload;\n\nif (typeof data === \"string\") {\n    data = JSON.parse(data);\n}\n\nmsg.payload = data.message;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 710,
+        "y": 360,
         "wires": [
             [
-                "6f9c62b40b3fc349"
+                "9d3848171ea8309b"
             ]
         ]
     },
     {
-        "id": "0ecfafb1c76626d0",
+        "id": "9d3848171ea8309b",
+        "type": "ui_text",
+        "z": "00ad5ea394b9c077",
+        "group": "a981c80528fe9e84",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "name": "Alert Message",
+        "label": "Alert Message",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1000,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "5155c460989a68a1",
         "type": "debug",
-        "z": "6c3aebd160ce2af5",
-        "name": "debug 2",
+        "z": "00ad5ea394b9c077",
+        "name": "debug 3",
         "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
+        "complete": "payload",
+        "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 800,
-        "y": 560,
+        "x": 680,
+        "y": 80,
         "wires": []
     }
 ]
