@@ -20,7 +20,7 @@
         "menu-deploymenu-item-flow": true,
         "menu-deploymenu-item-full": false,
         "debug": {
-            "filter": "filterSelected",
+            "filter": "filterAll",
             "filteredNodes": [
                 "4e4ef5c114d9a231",
                 "0ecfafb1c76626d0"

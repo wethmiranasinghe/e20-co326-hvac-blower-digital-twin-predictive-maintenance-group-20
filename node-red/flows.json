@@ -126,7 +126,7 @@
             }
         },
         "site": {
-            "name": "Node-RED Dashboard",
+            "name": "HVAC Blower Fan Predictive Maintenance System",
             "hideToolbar": "false",
             "allowSwipe": "false",
             "lockMenu": "false",
@@ -147,7 +147,7 @@
     {
         "id": "e4e3310e72889f23",
         "type": "ui_tab",
-        "name": "Live Data",
+        "name": "HVAC Monitoring Dashboard",
         "icon": "dashboard",
         "order": 2,
         "disabled": false,
@@ -156,7 +156,7 @@
     {
         "id": "a981c80528fe9e84",
         "type": "ui_group",
-        "name": "Sensor Overview",
+        "name": "Fan Performance",
         "tab": "e4e3310e72889f23",
         "order": 1,
         "disp": true,
@@ -167,7 +167,7 @@
     {
         "id": "6ac62dc140462e8a",
         "type": "ui_group",
-        "name": "AI Data",
+        "name": "AI Health Status",
         "tab": "e4e3310e72889f23",
         "order": 2,
         "disp": true,
@@ -208,7 +208,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 610,
+        "x": 650,
         "y": 320,
         "wires": [
             [
@@ -266,8 +266,8 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 900,
-        "y": 380,
+        "x": 920,
+        "y": 420,
         "wires": []
     },
     {
@@ -275,13 +275,13 @@
         "type": "ui_text",
         "z": "6c3aebd160ce2af5",
         "group": "a981c80528fe9e84",
-        "order": 2,
-        "width": 0,
-        "height": 0,
+        "order": 3,
+        "width": "3",
+        "height": "4",
         "name": "Moving Average",
-        "label": "Moving Average",
-        "format": "{{msg.payload}}",
-        "layout": "row-spread",
+        "label": "Moving Average ",
+        "format": "{{msg.payload}} A",
+        "layout": "col-center",
         "className": "",
         "style": false,
         "font": "",
@@ -297,25 +297,25 @@
         "z": "6c3aebd160ce2af5",
         "name": "",
         "group": "a981c80528fe9e84",
-        "order": 4,
-        "width": 0,
-        "height": 0,
+        "order": 2,
+        "width": "3",
+        "height": "4",
         "gtype": "gage",
-        "title": "Current (A)",
+        "title": "Fan Current (Amps)",
         "label": "units",
         "format": "{{value}}",
         "min": 0,
-        "max": 10,
+        "max": "6",
         "colors": [
             "#00b500",
             "#e6e600",
             "#ca3838"
         ],
-        "seg1": "",
-        "seg2": "",
+        "seg1": "3.5",
+        "seg2": "4.2",
         "diff": false,
         "className": "",
-        "x": 890,
+        "x": 920,
         "y": 260,
         "wires": []
     },
@@ -326,8 +326,8 @@
         "name": "",
         "group": "a981c80528fe9e84",
         "order": 1,
-        "width": 0,
-        "height": 0,
+        "width": "6",
+        "height": "5",
         "label": "Fan Current Over Time",
         "chartType": "line",
         "legend": "false",
@@ -418,7 +418,8 @@
             [
                 "7e0c6349b6d1ed1a",
                 "3365f96b712f5b70",
-                "5155c460989a68a1"
+                "5155c460989a68a1",
+                "d88a268cb3890c1b"
             ]
         ]
     },
@@ -427,41 +428,20 @@
         "type": "function",
         "z": "00ad5ea394b9c077",
         "name": "extract_status",
-        "func": "let data = msg.payload;\n\nif (typeof data === \"string\") {\n    data = JSON.parse(data);\n}\n\nmsg.payload = data.status;\nreturn msg;",
+        "func": "let data = msg.payload;\n\nmsg.payload = {\n    status: data.status,\n    message: data.message,\n    color: (data.status === \"ANOMALY\") ? \"red\" : \"green\"\n};\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 700,
-        "y": 220,
+        "x": 720,
+        "y": 320,
         "wires": [
             [
-                "bce33167c025d4e1"
+                "9dd83626d7868540"
             ]
         ]
-    },
-    {
-        "id": "bce33167c025d4e1",
-        "type": "ui_text",
-        "z": "00ad5ea394b9c077",
-        "group": "6ac62dc140462e8a",
-        "order": 5,
-        "width": 0,
-        "height": 0,
-        "name": "Fan Status",
-        "label": "Fan Status",
-        "format": "{{msg.payload}}",
-        "layout": "row-spread",
-        "className": "",
-        "style": false,
-        "font": "",
-        "fontSize": 16,
-        "color": "#000000",
-        "x": 1010,
-        "y": 220,
-        "wires": []
     },
     {
         "id": "3365f96b712f5b70",
@@ -475,8 +455,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 710,
-        "y": 360,
+        "x": 730,
+        "y": 220,
         "wires": [
             [
                 "9d3848171ea8309b"
@@ -488,20 +468,20 @@
         "type": "ui_text",
         "z": "00ad5ea394b9c077",
         "group": "6ac62dc140462e8a",
-        "order": 3,
-        "width": 0,
-        "height": 0,
+        "order": 2,
+        "width": "6",
+        "height": "4",
         "name": "Alert Message",
         "label": "Alert Message",
         "format": "{{msg.payload}}",
-        "layout": "row-spread",
+        "layout": "col-center",
         "className": "",
         "style": false,
         "font": "",
         "fontSize": 16,
         "color": "#000000",
-        "x": 1000,
-        "y": 360,
+        "x": 1020,
+        "y": 220,
         "wires": []
     },
     {
@@ -520,6 +500,67 @@
         "x": 680,
         "y": 80,
         "wires": []
+    },
+    {
+        "id": "d88a268cb3890c1b",
+        "type": "function",
+        "z": "00ad5ea394b9c077",
+        "name": "extract_device",
+        "func": "let data = msg.payload;\n\nif (typeof data === \"string\") {\n    data = JSON.parse(data);\n}\n\nmsg.payload = data.device;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 720,
+        "y": 160,
+        "wires": [
+            [
+                "76a1bc3d6b2de8d8"
+            ]
+        ]
+    },
+    {
+        "id": "76a1bc3d6b2de8d8",
+        "type": "ui_text",
+        "z": "00ad5ea394b9c077",
+        "group": "6ac62dc140462e8a",
+        "order": 1,
+        "width": "6",
+        "height": "2",
+        "name": "",
+        "label": "Device",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1010,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "9dd83626d7868540",
+        "type": "ui_template",
+        "z": "00ad5ea394b9c077",
+        "group": "6ac62dc140462e8a",
+        "name": "fan status",
+        "order": 3,
+        "width": "6",
+        "height": "3",
+        "format": "<div style=\"\n    padding:10px;\n    border-radius:10px;\n    background-color: {{msg.payload.color}};\n    color:white;\n    font-size:20px;\n    text-align:center;\n\">\n    Fan Status: {{msg.payload.status}}\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1020,
+        "y": 320,
+        "wires": [
+            []
+        ]
     }
- 
 ]
