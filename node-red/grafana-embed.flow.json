@@ -1,0 +1,46 @@
+[
+  {
+    "id": "embed-tab",
+    "type": "tab",
+    "label": "Grafana Embed",
+    "disabled": false,
+    "info": ""
+  },
+  {
+    "id": "ui_template_embed",
+    "type": "ui_template",
+    "z": "embed-tab",
+    "group": "ui_group",
+    "name": "Grafana iframe",
+    "order": 1,
+    "width": "12",
+    "height": "6",
+    "format": "<div style=\"height:100%\">\n  <iframe src=\"http://localhost:3000/d-solo/fan_dashboard/fan-dashboard?orgId=1&panelId=1&from=now-1h&to=now\" style=\"width:100%;height:100%;border:0\"></iframe>\n</div>",
+    "storeOutMessages": true,
+    "fwdInMessages": true,
+    "resendOnRefresh": true,
+    "templateScope": "local",
+    "x": 360,
+    "y": 120,
+    "wires": []
+  },
+  {
+    "id": "ui_tab",
+    "type": "ui_tab",
+    "z": "",
+    "name": "HVAC",
+    "icon": "dashboard",
+    "order": 1
+  },
+  {
+    "id": "ui_group",
+    "type": "ui_group",
+    "z": "",
+    "name": "Grafana",
+    "tab": "ui_tab",
+    "order": 2,
+    "disp": true,
+    "width": "12",
+    "collapse": false
+  }
+]

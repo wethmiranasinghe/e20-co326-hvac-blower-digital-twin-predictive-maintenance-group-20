@@ -10,6 +10,13 @@ import signal
 import sys
 import logging
 import os
+from datetime import datetime
+try:
+    from influxdb_client import InfluxDBClient, Point, WritePrecision
+except Exception:
+    InfluxDBClient = None
+    Point = None
+    WritePrecision = None
 
 def load_model(path):
     return joblib.load(path)
@@ -36,6 +43,20 @@ def run_publisher(args):
     ALERT_TOPIC = args.alert_topic
 
     client = create_client(BROKER, PORT)
+
+    # InfluxDB setup (optional)
+    INFLUX_URL = os.getenv("INFLUX_URL", "http://influxdb:8086")
+    INFLUX_TOKEN = os.getenv("INFLUX_TOKEN", None)
+    INFLUX_ORG = os.getenv("INFLUX_ORG", "group20")
+    INFLUX_BUCKET = os.getenv("INFLUX_BUCKET", "hvac")
+    influx_client = None
+    write_api = None
+    if InfluxDBClient and INFLUX_TOKEN:
+        try:
+            influx_client = InfluxDBClient(url=INFLUX_URL, token=INFLUX_TOKEN, org=INFLUX_ORG)
+            write_api = influx_client.write_api()
+        except Exception:
+            logging.getLogger(__name__).exception("Failed to initialize InfluxDB client")
 
     model = load_model(args.model_path)
 
@@ -103,6 +124,18 @@ def run_publisher(args):
         client.publish(DATA_TOPIC, json.dumps(sensor_payload))
         client.publish(ALERT_TOPIC, json.dumps(alert_payload))
 
+        # Write to InfluxDB (best-effort)
+        if write_api:
+            try:
+                p = Point("fan_metrics") \
+                    .tag("device", sensor_payload["device"]) \
+                    .field("current", float(sensor_payload["current"])) \
+                    .field("moving_avg", float(sensor_payload["moving_avg"])) \
+                    .time(datetime.utcfromtimestamp(sensor_payload["timestamp"]), WritePrecision.S)
+                write_api.write(bucket=INFLUX_BUCKET, org=INFLUX_ORG, record=p)
+            except Exception:
+                logger.exception("Failed to write to InfluxDB")
+
         logger.info("DATA : %s", sensor_payload)
         logger.info("ALERT: %s", alert_payload)
         logger.info("%s", "-" * 50)
@@ -131,6 +164,13 @@ def main():
     except Exception:
         logging.getLogger(__name__).exception("Publisher exited with error")
         sys.exit(1)
+    finally:
+        # ensure influx client closed if present
+        try:
+            if 'influx_client' in globals() and influx_client:
+                influx_client.close()
+        except Exception:
+            pass
 
 
 if __name__ == "__main__":

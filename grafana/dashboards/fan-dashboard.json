@@ -1,0 +1,36 @@
+{
+  "annotations": {"list": []},
+  "description": "Fan metrics dashboard",
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [],
+  "panels": [
+    {
+      "datasource": "InfluxDB",
+      "fieldConfig": {"defaults": {},"overrides": []},
+      "gridPos": {"h": 9,"w": 24,"x": 0,"y": 0},
+      "id": 1,
+      "options": {},
+      "targets": [
+        {
+          "query": "from(bucket:\"hvac\") |> range(start: -1h) |> filter(fn: (r) => r._measurement == \"fan_metrics\" and r._field == \"current\") |> aggregateWindow(every: 10s, fn: mean, createEmpty: false) |> yield()",
+          "refId": "A"
+        }
+      ],
+      "title": "Fan Current",
+      "type": "timeseries"
+    }
+  ],
+  "schemaVersion": 36,
+  "style": "dark",
+  "tags": [],
+  "templating": {"list": []},
+  "time": {"from": "now-1h","to": "now"},
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "fan-dashboard",
+  "uid": "fan_dashboard",
+  "version": 1
+}
