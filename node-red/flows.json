@@ -165,6 +165,17 @@
         "className": ""
     },
     {
+        "id": "6ac62dc140462e8a",
+        "type": "ui_group",
+        "name": "AI Data",
+        "tab": "e4e3310e72889f23",
+        "order": 2,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
         "id": "3769e4d58b121aae",
         "type": "mqtt in",
         "z": "6c3aebd160ce2af5",
@@ -202,7 +213,6 @@
         "wires": [
             [
                 "f29e172970af6b7b",
-                "54a1ebfaa6dfbeb4",
                 "6f9c62b40b3fc349",
                 "0ecfafb1c76626d0"
             ]
@@ -221,7 +231,8 @@
         "wires": [
             [
                 "52bc0e5e6492236c",
-                "4e4ef5c114d9a231"
+                "4e4ef5c114d9a231",
+                "0cf6ba6040f94f6e"
             ]
         ]
     },
@@ -239,33 +250,8 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 600,
-        "y": 400,
+        "y": 540,
         "wires": []
-    },
-    {
-        "id": "b8a97011274da08a",
-        "type": "inject",
-        "z": "6c3aebd160ce2af5",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "5",
-        "payloadType": "num",
-        "x": 730,
-        "y": 240,
-        "wires": [
-            [
-                "6f9c62b40b3fc349"
-            ]
-        ]
     },
     {
         "id": "0ecfafb1c76626d0",
@@ -280,8 +266,8 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 800,
-        "y": 560,
+        "x": 900,
+        "y": 380,
         "wires": []
     },
     {
@@ -294,14 +280,14 @@
         "height": 0,
         "name": "Moving Average",
         "label": "Moving Average",
-        "format": "{{msg.payload.moving_avg}}",
+        "format": "{{msg.payload}}",
         "layout": "row-spread",
         "className": "",
         "style": false,
         "font": "",
         "fontSize": 16,
         "color": "#000000",
-        "x": 860,
+        "x": 920,
         "y": 480,
         "wires": []
     },
@@ -311,7 +297,7 @@
         "z": "6c3aebd160ce2af5",
         "name": "",
         "group": "a981c80528fe9e84",
-        "order": 0,
+        "order": 4,
         "width": 0,
         "height": 0,
         "gtype": "gage",
@@ -329,8 +315,8 @@
         "seg2": "",
         "diff": false,
         "className": "",
-        "x": 870,
-        "y": 320,
+        "x": 890,
+        "y": 260,
         "wires": []
     },
     {
@@ -371,10 +357,30 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 860,
-        "y": 400,
+        "x": 900,
+        "y": 340,
         "wires": [
             []
+        ]
+    },
+    {
+        "id": "0cf6ba6040f94f6e",
+        "type": "function",
+        "z": "6c3aebd160ce2af5",
+        "name": "extract_moving_avg",
+        "func": "let data = msg.payload;\n\nif (data.moving_avg !== undefined) {\n    msg.payload = data.moving_avg;\n    return msg;\n}\n\nreturn null;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 660,
+        "y": 400,
+        "wires": [
+            [
+                "54a1ebfaa6dfbeb4"
+            ]
         ]
     },
     {
@@ -404,7 +410,7 @@
         "z": "00ad5ea394b9c077",
         "name": "",
         "property": "payload",
-        "action": "",
+        "action": "obj",
         "pretty": false,
         "x": 470,
         "y": 220,
@@ -440,8 +446,8 @@
         "id": "bce33167c025d4e1",
         "type": "ui_text",
         "z": "00ad5ea394b9c077",
-        "group": "a981c80528fe9e84",
-        "order": 3,
+        "group": "6ac62dc140462e8a",
+        "order": 5,
         "width": 0,
         "height": 0,
         "name": "Fan Status",
@@ -481,8 +487,8 @@
         "id": "9d3848171ea8309b",
         "type": "ui_text",
         "z": "00ad5ea394b9c077",
-        "group": "a981c80528fe9e84",
-        "order": 4,
+        "group": "6ac62dc140462e8a",
+        "order": 3,
         "width": 0,
         "height": 0,
         "name": "Alert Message",
