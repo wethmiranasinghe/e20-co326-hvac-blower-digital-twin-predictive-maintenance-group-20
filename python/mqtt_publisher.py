@@ -9,6 +9,7 @@ import argparse
 import signal
 import sys
 import logging
+import os
 
 def load_model(path):
     return joblib.load(path)
@@ -112,8 +113,8 @@ def run_publisher(args):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--broker", default="mqtt", help="MQTT broker host")
-    parser.add_argument("--port", type=int, default=1883, help="MQTT broker port")
+    parser.add_argument("--broker", default=os.getenv("MQTT_BROKER_HOST", "mqtt"), help="MQTT broker host")
+    parser.add_argument("--port", type=int, default=int(os.getenv("MQTT_BROKER_PORT", "1883")), help="MQTT broker port")
     parser.add_argument("--data-topic", default="sensors/group20/hvac-blower/data")
     parser.add_argument("--alert-topic", default="alerts/group20/hvac-blower/status")
     parser.add_argument("--model-path", default="fan_anomaly_model.pkl")
