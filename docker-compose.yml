@@ -12,6 +12,9 @@ services:
     image: nodered/node-red:latest
     container_name: node-red
     restart: unless-stopped
+    environment:
+      MQTT_BROKER_HOST: mqtt
+      MQTT_BROKER_PORT: 1883
     ports:
       - "1880:1880"
     volumes:
@@ -23,5 +26,10 @@ services:
     build: ./python
     container_name: python-edge
     restart: unless-stopped
+    environment:
+      MQTT_BROKER_HOST: mqtt
+      MQTT_BROKER_PORT: 1883
     depends_on:
       - mqtt
+    # To use the instructor broker later, update MQTT_BROKER_HOST and
+    # MQTT_BROKER_PORT for both node-red and python-edge.
